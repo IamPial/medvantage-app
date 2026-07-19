@@ -59,7 +59,7 @@ export default function FeaturedSection({
     trials?: ClinicalTrial[];
 }) {
     return (
-        <section className="bg-[#F7FBFA] px-6 py-20 lg:px-12 lg:py-28">
+        <section className="bg-[#F7FBFA] px-6 py-10 lg:px-12 lg:py-16">
             <div className="mx-auto max-w-7xl">
                 <div className="mx-auto max-w-2xl text-center">
                     <Chip

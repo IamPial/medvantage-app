@@ -108,7 +108,7 @@ function Counter({
 
 export default function StatisticsSection() {
     return (
-        <section className="bg-white px-6 py-20 lg:px-12 lg:py-28">
+        <section className="bg-white px-6 py-10 lg:px-12 lg:py-16">
             <div className="mx-auto max-w-7xl">
                 {/* header */}
                 <div className="mx-auto max-w-2xl text-center">

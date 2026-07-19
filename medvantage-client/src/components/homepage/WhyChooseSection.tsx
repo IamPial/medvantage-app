@@ -56,7 +56,7 @@ const fadeUp = {
 
 export default function WhyChooseSection() {
     return (
-        <section className="relative overflow-hidden bg-white py-20 sm:py-24 lg:py-28">
+        <section className="relative overflow-hidden bg-white py-10 sm:py-12 lg:py-16">
             {/* ambient background, echoes the Hero's palette */}
             <div className="pointer-events-none absolute inset-0">
                 <div className="absolute -left-24 top-0 h-[360px] w-[360px] rounded-full bg-[#0F6B62]/5 blur-3xl" />
