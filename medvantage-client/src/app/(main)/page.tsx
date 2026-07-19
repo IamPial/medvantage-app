@@ -1,3 +1,4 @@
+import FaqSection from "@/components/homepage/FaqSection";
 import FeaturedSection from "@/components/homepage/FeaturedSection";
 import HeroSection from "@/components/homepage/HeroSection";
 import StatisticsSection from "@/components/homepage/StatisticsSection";
@@ -14,6 +15,7 @@ export default function Home() {
       <WhyChooseSection />
       <WorkflowSection />
       <TestimonialsSection />
+      <FaqSection />
     </div>
   );
 }
