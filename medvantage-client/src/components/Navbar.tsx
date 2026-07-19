@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LuActivity, LuMenu, LuX } from "react-icons/lu";
 import { Button } from "@heroui/react";
+import { authClient } from "@/lib/auth-client";
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -20,6 +21,12 @@ export default function Navbar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const drawerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+
+  // const { data } = authClient.useSession();
+  // console.log(data)
+
+
+
 
   // Monitor scroll for shadow effect
   useEffect(() => {
