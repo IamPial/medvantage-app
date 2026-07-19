@@ -1,16 +1,18 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import DashBoardProfiles from "@/components/dashboard/DashBoardProfiles";
+import DashBoardSideBar from "@/components/dashboard/DashBoardSideBar";
 
-// TODO: Add auth guard here once authentication is implemented.
-// Redirect unauthenticated users to /login.
-const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+
+
+export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex flex-col min-h-screen">
-      <Navbar />
-      <main className="flex-1 flex flex-col">{children}</main>
-      <Footer />
+    <div className="flex flex-col md:flex-row h-screen w-screen overflow-hidden bg-gray-300/30">
+      {/* sidebar */}
+      <DashBoardSideBar />
+      <div className="flex-1 overflow-y-auto">
+        {/* navbar */}
+        <DashBoardProfiles />
+        <main >{children}</main>
+      </div>
     </div>
   );
-};
-
-export default DashboardLayout;
+}
