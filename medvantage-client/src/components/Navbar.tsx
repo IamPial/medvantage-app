@@ -22,8 +22,8 @@ export default function Navbar() {
   const drawerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
-  // const { data } = authClient.useSession();
-  // console.log(data)
+  const { data: session } = authClient.useSession()
+  const user = session?.user;
 
 
 
