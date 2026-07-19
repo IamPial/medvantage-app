@@ -15,14 +15,18 @@ import { usePathname, useRouter } from "next/navigation";
 
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
+import { IoCreateOutline } from "react-icons/io5";
+import { RiEditCircleLine, RiProfileLine } from "react-icons/ri";
+import { MdOutlineRecommend } from "react-icons/md";
+import { LuBot } from "react-icons/lu";
 
 const dashboardItems = [
     { name: "Overview", icon: <FiPieChart />, href: "/dashboard" },
-    { name: "Add Trial", icon: <FiActivity />, href: "/dashboard/add-trial" },
-    { name: "Manage Trial", icon: <FiActivity />, href: "/dashboard/manage-trials" },
-    { name: "Recommendations", icon: <FiActivity />, href: "/dashboard/recommendations" },
-    { name: "Profile", icon: <FiActivity />, href: "/dashboard/profile" },
-    { name: "AI Assistant", icon: <FiActivity />, href: "/dashboard/ai-assistant" },
+    { name: "Add Trial", icon: <IoCreateOutline />, href: "/dashboard/add-trial" },
+    { name: "Manage Trial", icon: <RiEditCircleLine />, href: "/dashboard/manage-trials" },
+    { name: "Recommendations", icon: <MdOutlineRecommend />, href: "/dashboard/recommendations" },
+    { name: "Profile", icon: <RiProfileLine />, href: "/dashboard/profile" },
+    { name: "AI Assistant", icon: <LuBot />, href: "/dashboard/ai-assistant" },
 ];
 
 
@@ -48,14 +52,14 @@ const DashBoardSideBar = () => {
 
     return (
         <>
-            <div className="md:hidden flex items-center justify-between p-4 bg-[#0f172a] border-b border-white/5 w-full fixed top-0 left-0 z-50">
-                <span className="font-bold text-xl tracking-wider text-white flex items-center ">
-                    Nexus<span className="text-green-400">Dash</span>
+            <div className="md:hidden flex items-center justify-between p-4 bg-[#f8fafc] border-b border-gray-300 w-full fixed top-0 left-0 z-50">
+                <span className="font-bold text-xl tracking-wider text-[#0f172a] flex items-center ">
+                    Medvantage
                 </span>
                 <Button
                     isIconOnly
                     onClick={() => setIsOpen(!isOpen)}
-                    className="text-white bg-transparent "
+                    className="text-[#0f172a] bg-transparent "
                 >
                     {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
                 </Button>
@@ -69,7 +73,7 @@ const DashBoardSideBar = () => {
                     <div className="hidden md:block">
                         <Link
                             href="/"
-                            className="font-extrabold text-2xl tracking-wider text-[0f172a] flex items-center">Nexus<span className="text-green-400">Dash</span>
+                            className="font-extrabold text-2xl tracking-wider text-[#0f172a] flex items-center">Medvantage
                         </Link>
 
                     </div>
@@ -85,8 +89,8 @@ const DashBoardSideBar = () => {
                                 >
                                     <span
                                         className={`flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium text-sm transition-all cursor-pointer ${isActive
-                                            ? "bg-[#4f46e5] text-white shadow-lg shadow-[#4f46e5]/20"
-                                            : "text-[#0f172a] hover:bg-gray-300/45 hover:text-[#4f46e5] "
+                                            ? "bg-[#0F6B62] text-white shadow-lg shadow-[#0F6B62]/20"
+                                            : "text-[#0f172a] hover:bg-gray-300/45 hover:text-[#0F6B62] "
                                             }`}
                                     >
                                         <span className="text-lg">{item.icon}</span>
@@ -101,7 +105,7 @@ const DashBoardSideBar = () => {
                 <div className="flex flex-col gap-2 mt-auto pt-6">
                     <Button
                         onClick={handleSignOut}
-                        className="bg-red-500/80  text-white flex items-center justify-start gap-4 px-4 py-3.5 rounded-xl font-medium w-full hover:bg-red-500 "
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white flex items-center justify-start gap-4 px-4 py-3.5 rounded-xl font-medium w-full "
                     >
                         <FiLogOut className="text-lg" />
                         Logout
