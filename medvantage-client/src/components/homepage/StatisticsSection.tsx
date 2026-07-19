@@ -17,14 +17,6 @@ import {
     HiOutlineCheckBadge,
 } from "react-icons/hi2";
 
-/**
- * MedVantage — Statistics Section
- * Stack: Next.js 16 (App Router) · TypeScript · Tailwind CSS · HeroUI v3.2.2
- *        · React Icons · Framer Motion
- *
- * "use client" is required — Framer Motion's useInView / useMotionValue and
- * the imperative `animate()` call all need the browser.
- */
 
 type Stat = {
     label: string;
