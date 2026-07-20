@@ -133,7 +133,7 @@ export default function OverviewContent({ type }: OverviewContentProps) {
                         <p className="text-xs text-zinc-400 mt-0.5">Aggregated tracking index timeline across active quadrants.</p>
                     </div>
                     <div className="w-full h-72 text-xs">
-                        <ResponsiveContainer width="100%" h="100%">
+                        <ResponsiveContainer width="100%" height="100%">
                             <LineChart data={lineChartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                                 <XAxis dataKey="name" stroke="#a1a1aa" tickLine={false} />
                                 <YAxis stroke="#a1a1aa" tickLine={false} />
