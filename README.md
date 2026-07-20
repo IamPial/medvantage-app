@@ -1,4 +1,4 @@
-🩺 MedVantage – AI-Powered Clinical Trial & Rare Disease Matching Platform
+# 🩺 MedVantage – AI-Powered Clinical Trial & Rare Disease Matching Platform
 
 MedVantage is a modern full-stack healthcare platform that helps patients, clinicians, and researchers discover suitable clinical trials through AI-powered assistance. Researchers can publish and manage clinical trials, while users can search, explore, and learn about active studies in a clean and intuitive interface.
 
