@@ -24,8 +24,6 @@ const dashboardItems = [
     { name: "Overview", icon: <FiPieChart />, href: "/dashboard" },
     { name: "Add Trial", icon: <IoCreateOutline />, href: "/dashboard/add-trial" },
     { name: "Manage Trial", icon: <RiEditCircleLine />, href: "/dashboard/manage-trials" },
-    { name: "Recommendations", icon: <MdOutlineRecommend />, href: "/dashboard/recommendations" },
-    { name: "Profile", icon: <RiProfileLine />, href: "/dashboard/profile" },
     { name: "AI Assistant", icon: <LuBot />, href: "/dashboard/ai-assistant" },
 ];
 
