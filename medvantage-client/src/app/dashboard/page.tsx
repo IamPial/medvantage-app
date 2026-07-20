@@ -138,7 +138,7 @@ export default function OverviewContent({ type }: OverviewContentProps) {
                                 <XAxis dataKey="name" stroke="#a1a1aa" tickLine={false} />
                                 <YAxis stroke="#a1a1aa" tickLine={false} />
                                 <Tooltip
-                                    contentStyle={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #f4f4f5", shadow: "sm" }}
+                                    contentStyle={{ backgroundColor: "#ffffff", borderRadius: "12px", border: "1px solid #f4f4f5", }}
                                     labelStyle={{ fontWeight: "bold", color: "#18181b" }}
                                 />
                                 <Line type="monotone" dataKey="activity" stroke="#00a86b" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
@@ -154,7 +154,7 @@ export default function OverviewContent({ type }: OverviewContentProps) {
                         <p className="text-xs text-zinc-400 mt-0.5">Proportional segmentation of active protocols.</p>
                     </div>
                     <div className="w-full h-56 flex items-center justify-center text-xs my-3">
-                        <ResponsiveContainer width="100%" h="100%">
+                        <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
                                 <Pie data={pieChartData} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={4} dataKey="value">
                                     {pieChartData.map((entry, index) => (
