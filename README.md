@@ -4,6 +4,15 @@ MedVantage is a modern full-stack healthcare platform that helps patients, clini
 
 🚀 Live Demo : https://medvantage-client.vercel.app
 
+
+#  Screenshots
+
+### Home Page
+
+![Home](./medvantage-client/src/assets/home.png)
+
+
+
 ## Project Overview
 
 Finding suitable clinical trials is often difficult due to scattered information and complex eligibility requirements. MedVantage simplifies this process by providing a centralized platform where researchers can publish clinical trials and users can easily search and explore them.
