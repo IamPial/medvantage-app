@@ -162,6 +162,16 @@ async function run() {
 
 
 
+    app.delete("/api/explore/:id", verifyToken, async (req: Request<{ id: string }>, res: Response) => {
+      const id = req.params.id;
+      const result = await exploreTrialCollections.deleteOne({
+        _id: new ObjectId(id),
+      });
+      res.send(result);
+    })
+
+
+
     //Ai Assistant Chatboat
     app.post('/api/ai/chat', verifyToken, async (req: Request, res: Response) => {
       const { messages } = req.body;
