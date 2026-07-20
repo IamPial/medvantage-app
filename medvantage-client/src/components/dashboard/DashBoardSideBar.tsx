@@ -24,7 +24,7 @@ const dashboardItems = [
     { name: "Overview", icon: <FiPieChart />, href: "/dashboard" },
     { name: "Add Trial", icon: <IoCreateOutline />, href: "/dashboard/add-trial" },
     { name: "Manage Trial", icon: <RiEditCircleLine />, href: "/dashboard/manage-trials" },
-    { name: "Medvantage AI Assistant", icon: <LuBot />, href: "/dashboard/ai-assistant" },
+    { name: "Medvantage AI", icon: <LuBot />, href: "/dashboard/ai-assistant" },
 ];
 
 

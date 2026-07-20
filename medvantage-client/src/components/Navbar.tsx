@@ -114,7 +114,7 @@ export default function Navbar() {
           {/* Center: Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-1" aria-label="Main Navigation">
             {navItems.map((item) => {
-              // কন্ডিশন: আইটেমটি ড্যাশবোর্ড হলে এবং ইউজার লগইন না থাকলে এটি স্কিপ (হাইড) করবে
+
               if (item.href === "/dashboard" && !user) return null;
 
               const active = isActive(item.href);
@@ -157,6 +157,9 @@ export default function Navbar() {
               </>
             ) : (
               <div className="flex items-center gap-3">
+                <span className="text-zinc-900 font-medium">
+                  Hi, {user?.name?.split(" ")[0]} !
+                </span>
                 <Button
                   onClick={handleSignOut}
                   variant="outline"
