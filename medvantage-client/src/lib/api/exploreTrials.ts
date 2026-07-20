@@ -1,3 +1,4 @@
+import { getTokenServer } from "../getToken";
 
 const baseURl = process.env.NEXT_PUBLIC_API_URL
 
@@ -48,4 +49,15 @@ export const getExploreItemsDetails = async (id: string): Promise<TrialFormData>
 }
 
 
+export const getMyExploreTrials = async (): Promise<TrialFormData[]> => {
+    const token = await getTokenServer();
+    const res = await fetch(`${baseURl}/api/explore/my-items`, {
+        headers: {
+            authorization: `Bearer ${token}`,
+        },
+    });
+
+    const data = await res.json();
+    return data;
+};
 
