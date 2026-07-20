@@ -95,26 +95,31 @@ async function run() {
     const exploreTrialCollections = db.collection('explore')
 
 
+//explore trials related apis
+app.get('/api/explore', async (req: Request, res: Response) => {
+  const limit = req.query.limit ? parseInt(req.query.limit as string) : 0;
+  const { search, country, phase } = req.query;
 
-    //Explore Trial related apis
-      app.get('/api/explore', async (req: Request, res: Response) => {
-      const limit = req.query.limit ? parseInt(req.query.limit as string) : 0;
-      const { search } = req.query;
+  let query: Record<string, any> = {};
 
-      let query: Record<string, any> = {};
-
-      if (search && search !== 'undefined') {
-      query.title = { $regex: search as string, $options: "i" };
-      }
-
+  if (search && search !== 'undefined') {
+    query.title = { $regex: search as string, $options: "i" };
+  }
 
 
-      let cursor = exploreTrialCollections.find(query);
-      if (Number(limit)) cursor = cursor.limit(Number(limit));
+if (country && country !== 'undefined') {
+  query.country = { $regex: country as string, $options: "i" };
+}
+if (phase && phase !== 'undefined') {
+  query.phase = phase as string;
+}
 
-      const result = await cursor.toArray();
-      res.json(result);
-      });
+  let cursor = exploreTrialCollections.find(query);
+  if (Number(limit)) cursor = cursor.limit(Number(limit));
+
+  const result = await cursor.toArray();
+  res.json(result);
+});
 
 
 
