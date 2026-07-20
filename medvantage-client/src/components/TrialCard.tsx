@@ -14,7 +14,6 @@ import { TrialFormData } from "@/lib/api/exploreTrials";
 
 interface TrialCardProps {
     trial: TrialFormData;
-    /** Stagger index, used to delay the entrance animation. */
     index?: number;
 }
 
@@ -70,7 +69,7 @@ export default function TrialCard({ trial, index = 0 }: TrialCardProps) {
                     </div>
 
                     <div className="mt-auto pt-2">
-                        <Link href={`/trials/${trial._id}`} className="block">
+                        <Link href={`/explore/${trial._id}`} className="block">
                             <Button
                                 variant="secondary"
                                 className="w-full border border-slate-200 bg-white text-[#0B1F2A] hover:border-[#0F6B62]/40 hover:bg-[#0F6B62] hover:text-white"

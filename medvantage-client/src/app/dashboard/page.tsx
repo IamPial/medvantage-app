@@ -56,7 +56,7 @@ export default function OverviewContent({ type }: OverviewContentProps) {
     const cardsConfig = type === "researcher" ? [
         { title: "Total Trials", value: "142", icon: LuFileSpreadsheet, color: "text-emerald-600 bg-emerald-50", trend: "+12%", isPositive: true },
         { title: "Published Trials", value: "98", icon: LuShieldAlert, color: "text-cyan-600 bg-cyan-50", trend: "+8%", isPositive: true },
-        { title: "Patient Matches", value: "1,240", icon: LuUsers2, color: "text-amber-600 bg-amber-50", trend: "+24%", isPositive: true },
+        { title: "Patient Matches", value: "1,240", icon: LuUserCheck, color: "text-amber-600 bg-amber-50", trend: "+24%", isPositive: true },
         { title: "AI Analyses", value: "8,432", icon: LuBrainCircuit, color: "text-indigo-600 bg-indigo-50", trend: "+38%", isPositive: true },
     ] : [
         { title: "Saved Trials", value: "18", icon: LuBookmark, color: "text-emerald-600 bg-emerald-50", trend: "+2", isPositive: true },

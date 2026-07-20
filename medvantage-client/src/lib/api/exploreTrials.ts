@@ -19,7 +19,8 @@ export interface TrialFormData {
 interface TrialQueryParams {
     limit?: number;
     search?: string;
-
+    country?: string;
+    phase?: string;
 }
 
 export const getAllExploreTrialItems = async (
@@ -28,11 +29,23 @@ export const getAllExploreTrialItems = async (
     const params = new URLSearchParams();
     if (options?.limit) params.set("limit", String(options.limit));
     if (options?.search) params.set("search", options.search);
+    if (options?.country) params.set("country", options.country);
+    if (options?.phase) params.set("phase", options.phase);
+
 
     const query = params.toString() ? `?${params.toString()}` : "";
     const res = await fetch(`${baseURl}/api/explore${query}`, { cache: "no-store" });
     const data = await res.json();
     return data;
 };
+
+
+//details
+export const getExploreItemsDetails = async (id: string): Promise<TrialFormData> => {
+    const res = await fetch(`${baseURl}/api/explore/${id}`)
+    const data = await res.json()
+    return data
+}
+
 
 
