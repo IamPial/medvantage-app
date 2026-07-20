@@ -36,17 +36,11 @@ const SignUpPage = () => {
       return;
     }
 
-    if (!user.role) {
-      toast.error("Please select a role before registering.");
-      return;
-    }
-
     try {
       const { data, error } = await authClient.signUp.email({
         email: user.email,
         password: user.password,
         name: user.name,
-        role: user.role,
       });
 
       if (error) {
@@ -167,44 +161,7 @@ const SignUpPage = () => {
               <FieldError className="text-xs text-red-500 mt-1" />
             </TextField>
 
-            {/* Role Select Component */}
-            <div className="flex flex-col gap-1.5">
-              <Select name="role" isRequired className="w-full">
-                <Label className="text-slate-700 text-xs font-bold uppercase tracking-wider">
-                  Join As
-                </Label>
-                <Select.Trigger className="rounded-xl bg-white border border-slate-200 text-slate-900 w-full flex items-center justify-between p-2.5 mt-1.5 text-sm focus:border-[#00a86b] outline-none shadow-sm transition-all">
-                  <Select.Value
-                    className="text-neutral"
-                    placeholder="Select your role"
-                  />
-                  <Select.Indicator className="text-slate-400 text-xs" />
-                </Select.Trigger>
 
-                <Select.Popover className="bg-white border border-slate-200 rounded-xl shadow-xl mt-1 overflow-hidden z-50">
-                  <ListBox className="p-1 text-slate-900">
-                    <ListBox.Item
-                      id="patient"
-                      textValue="Patient"
-                      className="p-2.5 text-sm rounded-lg cursor-pointer text-slate-700 data-[focused=true]:bg-[#00a86b]/10 data-[selected=true]:bg-[#00a86b] data-[selected=true]:text-white outline-none flex items-center justify-between transition-colors font-medium"
-                    >
-                      <span>Patient / Participant</span>
-                      <ListBox.ItemIndicator />
-                    </ListBox.Item>
-
-                    <ListBox.Item
-                      id="researcher"
-                      textValue="Researcher"
-                      className="p-2.5 text-sm rounded-lg cursor-pointer text-slate-700 data-[focused=true]:bg-[#00a86b]/10 data-[selected=true]:bg-[#00a86b] data-[selected=true]:text-white outline-none flex items-center justify-between transition-colors font-medium"
-                    >
-                      <span>Clinical Researcher</span>
-                      <ListBox.ItemIndicator />
-                    </ListBox.Item>
-                  </ListBox>
-                </Select.Popover>
-              </Select>
-              <FieldError className="text-xs text-red-500 mt-0.5" />
-            </div>
 
             {/* Password Input */}
             <TextField

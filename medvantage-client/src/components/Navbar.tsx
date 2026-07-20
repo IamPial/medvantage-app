@@ -7,10 +7,12 @@ import { usePathname } from "next/navigation";
 import { LuActivity, LuMenu, LuX } from "react-icons/lu";
 import { Button } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 const navItems = [
   { name: "Home", href: "/" },
   { name: "Explore Trials", href: "/explore" },
+  { name: "DashBoard", href: "/dashboard" },
   { name: "About", href: "/about" },
   { name: "Contact", href: "/contact" },
 ];
@@ -22,11 +24,8 @@ export default function Navbar() {
   const drawerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
 
-  const { data: session } = authClient.useSession()
+  const { data: session } = authClient.useSession();
   const user = session?.user;
-
-
-
 
   // Monitor scroll for shadow effect
   useEffect(() => {
@@ -82,6 +81,13 @@ export default function Navbar() {
     return pathname.startsWith(href);
   };
 
+  const handleSignOut = async () => {
+    await authClient.signOut();
+    toast.success("Logged out successfully", {
+      style: { color: "#00a86b" },
+    });
+  };
+
   return (
     <>
       <header
@@ -100,7 +106,7 @@ export default function Navbar() {
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-500 text-white shadow-md shadow-emerald-500/20">
               <LuActivity className="h-5.5 w-5.5" />
             </div>
-            <span className="bg-gradient-to-r from-zinc-950 to-zinc-700 bg-clip-text text-xl font-bold tracking-tight text-transparent dark:from-white dark:to-zinc-300">
+            <span className="bg-gradient-to-r from-zinc-950 to-zinc-700 bg-clip-text text-xl font-bold tracking-tight text-transparent">
               MedVantage
             </span>
           </Link>
@@ -108,6 +114,9 @@ export default function Navbar() {
           {/* Center: Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-1" aria-label="Main Navigation">
             {navItems.map((item) => {
+              // কন্ডিশন: আইটেমটি ড্যাশবোর্ড হলে এবং ইউজার লগইন না থাকলে এটি স্কিপ (হাইড) করবে
+              if (item.href === "/dashboard" && !user) return null;
+
               const active = isActive(item.href);
               return (
                 <Link
@@ -127,22 +136,36 @@ export default function Navbar() {
 
           {/* Right: Desktop Action Buttons */}
           <div className="hidden lg:flex items-center gap-3">
-            <Link href="/login" className="outline-none">
-              <Button
-                variant="outline"
-                className="border-zinc-200 hover:border-emerald-500 text-zinc-700 hover:text-emerald-600 font-medium px-5 transition-all outline-none rounded-full"
-              >
-                Login
-              </Button>
-            </Link>
-            <Link href="/register" className="outline-none">
-              <Button
-                variant="primary"
-                className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium shadow-sm hover:shadow-md hover:scale-[1.01] active:scale-[0.99] transition-all px-5 outline-none rounded-full"
-              >
-                Get Started
-              </Button>
-            </Link>
+            {!user ? (
+              <>
+                <Link href="/login" className="outline-none">
+                  <Button
+                    variant="outline"
+                    className="border-zinc-200 hover:border-emerald-500 text-zinc-700 hover:text-emerald-600 font-medium px-5 transition-all outline-none rounded-full"
+                  >
+                    Login
+                  </Button>
+                </Link>
+                <Link href="/register" className="outline-none">
+                  <Button
+                    variant="primary"
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium shadow-sm hover:shadow-md hover:scale-[1.01] active:scale-[0.99] transition-all px-5 outline-none rounded-full"
+                  >
+                    Get Started
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <div className="flex items-center gap-3">
+                <Button
+                  onClick={handleSignOut}
+                  variant="outline"
+                  className="border-zinc-200 hover:border-emerald-500 text-zinc-700 hover:text-emerald-600 font-medium px-5 transition-all outline-none rounded-full"
+                >
+                  Sign Out
+                </Button>
+              </div>
+            )}
           </div>
 
           {/* Mobile Hamburger Button */}
@@ -159,14 +182,14 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Mobile Drawer (Slide-over) Overlay */}
+      {/* Mobile Drawer Overlay */}
       <div
         className={`fixed inset-0 bg-zinc-950/40 backdrop-blur-xs z-50 transition-opacity duration-300 lg:hidden ${isMobileOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
           }`}
         aria-hidden="true"
       />
 
-      {/* Mobile Drawer (Slide-over) Content */}
+      {/* Mobile Drawer Content */}
       <div
         ref={drawerRef}
         id="mobile-drawer"
@@ -200,9 +223,10 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Drawer Navigation Links */}
         <nav className="flex-1 flex flex-col gap-2 pt-6" aria-label="Mobile Navigation">
           {navItems.map((item) => {
+            if (item.href === "/dashboard" && !user) return null;
+
             const active = isActive(item.href);
             return (
               <Link
@@ -222,22 +246,37 @@ export default function Navbar() {
 
         {/* Drawer Action Buttons */}
         <div className="pt-6 border-t border-zinc-100 flex flex-col gap-3">
-          <Link href="/login" onClick={() => setIsMobileOpen(false)} className="w-full outline-none">
+          {!user ? (
+            <>
+              <Link href="/login" onClick={() => setIsMobileOpen(false)} className="w-full outline-none">
+                <Button
+                  variant="outline"
+                  className="w-full border-zinc-200 text-zinc-700 font-medium py-3.5 outline-none rounded-full"
+                >
+                  Login
+                </Button>
+              </Link>
+              <Link href="/register" onClick={() => setIsMobileOpen(false)} className="w-full outline-none">
+                <Button
+                  variant="primary"
+                  className="w-full bg-emerald-600 text-white font-medium py-3.5 outline-none rounded-full"
+                >
+                  Get Started
+                </Button>
+              </Link>
+            </>
+          ) : (
             <Button
+              onClick={() => {
+                setIsMobileOpen(false);
+                handleSignOut();
+              }}
               variant="outline"
               className="w-full border-zinc-200 text-zinc-700 font-medium py-3.5 outline-none rounded-full"
             >
-              Login
+              Sign Out
             </Button>
-          </Link>
-          <Link href="/register" onClick={() => setIsMobileOpen(false)} className="w-full outline-none">
-            <Button
-              variant="primary"
-              className="w-full bg-emerald-600 text-white font-medium py-3.5 outline-none rounded-full"
-            >
-              Get Started
-            </Button>
-          </Link>
+          )}
         </div>
       </div>
     </>

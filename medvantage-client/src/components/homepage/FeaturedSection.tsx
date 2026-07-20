@@ -1,63 +1,10 @@
 import { Chip } from "@heroui/react";
-import TrialCard, { type ClinicalTrial } from "../TrialCard";
+import TrialCard from "../TrialCard";
+import { getAllExploreTrialItems, type TrialFormData } from "@/lib/api/exploreTrials";
 
+export default async function FeaturedSection() {
+    const trials = await getAllExploreTrialItems({ limit: 6 });
 
-const FEATURED_TRIALS: ClinicalTrial[] = [
-    {
-        id: "type-2-diabetes-cgh",
-        disease: "Type 2 Diabetes",
-        hospital: "City General Hospital",
-        country: "United States",
-        phase: "Phase III",
-        category: "endocrine",
-    },
-    {
-        id: "breast-cancer-nci",
-        disease: "Breast Cancer",
-        hospital: "National Cancer Institute",
-        country: "India",
-        phase: "Phase II",
-        category: "oncology",
-    },
-    {
-        id: "alzheimers-royal-care",
-        disease: "Alzheimer's Disease",
-        hospital: "Royal Care Hospital",
-        country: "United Kingdom",
-        phase: "Phase III",
-        category: "neurology",
-    },
-    {
-        id: "rheumatoid-arthritis-st-marys",
-        disease: "Rheumatoid Arthritis",
-        hospital: "St. Mary's Medical Center",
-        country: "Canada",
-        phase: "Phase I",
-        category: "rheumatology",
-    },
-    {
-        id: "asthma-green-valley",
-        disease: "Asthma",
-        hospital: "Green Valley Clinic",
-        country: "Australia",
-        phase: "Phase II",
-        category: "respiratory",
-    },
-    {
-        id: "ckd-sunrise-health",
-        disease: "Chronic Kidney Disease",
-        hospital: "Sunrise Health Institute",
-        country: "Germany",
-        phase: "Phase III",
-        category: "nephrology",
-    },
-];
-
-export default function FeaturedSection({
-    trials = FEATURED_TRIALS,
-}: {
-    trials?: ClinicalTrial[];
-}) {
     return (
         <section className="bg-[#F7FBFA] px-6 py-10 lg:px-12 lg:py-16">
             <div className="mx-auto max-w-7xl">
@@ -80,11 +27,17 @@ export default function FeaturedSection({
                     </p>
                 </div>
 
-                <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    {trials.map((trial, i) => (
-                        <TrialCard key={trial.id} trial={trial} index={i} />
-                    ))}
-                </div>
+                {trials.length === 0 ? (
+                    <p className="mt-14 text-center text-slate-500">
+                        No trials found right now.
+                    </p>
+                ) : (
+                    <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                        {trials.map((trial: TrialFormData, i) => (
+                            <TrialCard key={trial._id} trial={trial} index={i} />
+                        ))}
+                    </div>
+                )}
             </div>
         </section>
     );

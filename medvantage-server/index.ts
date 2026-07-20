@@ -27,7 +27,17 @@ app.get('/', (req: Request, res: Response) => {
 
 
 
-
+interface TrialFormData {
+  title: string;
+  disease: string;
+  hospital: string;
+  country: string;
+  location: string;
+  phase: string;
+  status: string;
+  image?: string;
+  description: string;
+}
 
 
 
@@ -82,6 +92,39 @@ async function run() {
     await client.connect();
 
     const db = client.db("medvantage_db")
+    const exploreTrialCollections = db.collection('explore')
+
+
+
+    //Explore Trial related apis
+      app.get('/api/explore', async (req: Request, res: Response) => {
+      const limit = req.query.limit ? parseInt(req.query.limit as string) : 0;
+      const { search } = req.query;
+
+      let query: Record<string, any> = {};
+
+      if (search && search !== 'undefined') {
+      query.title = { $regex: search as string, $options: "i" };
+      }
+
+
+
+      let cursor = exploreTrialCollections.find(query);
+      if (Number(limit)) cursor = cursor.limit(Number(limit));
+
+      const result = await cursor.toArray();
+      res.json(result);
+      });
+
+
+
+    app.post('/api/explore',verifyToken, async(req:Request<{},{} ,TrialFormData>, res:Response)=>{
+       const userId = req.user?.id;
+      const addItems = { ...req.body, userId };
+      const result = await exploreTrialCollections.insertOne(addItems)
+      res.json(result)
+    })
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
