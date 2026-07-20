@@ -91,7 +91,7 @@ const TrialsTable = ({ trials }: TrialsTableProps) => {
 
                                     <Table.Cell className="py-4 pr-6 text-right">
                                         <div className="flex justify-end gap-2">
-                                            <Link href={`/manage-trials/${trial._id}`}>
+                                            <Link href={`/explore/${trial._id}`}>
                                                 <Button size="sm" className="bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-semibold rounded-lg p-2 min-w-0 transition-colors cursor-pointer">
                                                     <FiEye size={16} />
                                                 </Button>

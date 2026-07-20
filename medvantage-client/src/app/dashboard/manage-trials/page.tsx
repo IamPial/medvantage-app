@@ -5,7 +5,7 @@ import Image from "next/image";
 
 import TrialsTable from "@/components/TrialsTable";
 import { DeleteModal } from "@/components/DeleteModal";
-import { getMyExploreTrials, TrialFormData } from "@/lib/api/exploreTrials";
+import { getMyExploreTrials, type TrialFormData } from "@/lib/api/exploreTrials";
 
 
 export const metadata = {
@@ -25,7 +25,7 @@ const ManageTrialsPage = async () => {
           <h1 className="text-2xl font-bold tracking-tight text-zinc-900">Manage Trials</h1>
           <p className="text-sm text-zinc-400">View, monitor, and delete active clinical trials.</p>
         </div>
-        <Link href="/add-trials">
+        <Link href="/dashboard/add-trial">
           <Button className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl px-4 py-2 flex items-center gap-2 shadow-md transition-colors cursor-pointer">
             <FiPlus size={18} /> Add New Trial
           </Button>

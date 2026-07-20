@@ -1,6 +1,7 @@
 "use client";
 
-// import { deleteTrial } from "@/lib/actions/trials"; // তোমার প্রজেক্টের সার্ভার অ্যাকশন পাথ অনুযায়ী
+
+import { deleteTrial } from "@/lib/actions/exploreTrials";
 import { TrialFormData } from "@/lib/api/exploreTrials";
 
 import { AlertDialog, Button } from "@heroui/react";
@@ -16,7 +17,7 @@ export function DeleteModal({ trials }: DeleteModalProps) {
     const router = useRouter();
 
     const handleDelete = async () => {
-        // await deleteTrial(trials.id);
+        await deleteTrial(trials._id);
         toast.success("Clinical Trial Deleted Successfully!", {
             style: {
                 color: "#10b981",

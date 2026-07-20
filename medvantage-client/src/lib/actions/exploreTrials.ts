@@ -32,3 +32,26 @@ export const createTrial = async (exploreData: TrialFormData) => {
     const data = await res.json()
     return data
 }
+
+
+
+
+
+interface DeleteItems {
+    acknowledged: boolean;
+    deletedCount: number;
+}
+//delete Destination
+
+export const deleteTrial = async (id: string): Promise<DeleteItems> => {
+    const token = await getTokenServer()
+    const res = await fetch(`${baseURl}/api/explore/${id}`, {
+        method: "DELETE",
+        headers: {
+            "content-type": "application/json",
+            authorization: `Bearer ${token}`
+        }
+    })
+    const data = await res.json()
+    return data
+}

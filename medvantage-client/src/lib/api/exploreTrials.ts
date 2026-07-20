@@ -55,7 +55,14 @@ export const getMyExploreTrials = async (): Promise<TrialFormData[]> => {
         headers: {
             authorization: `Bearer ${token}`,
         },
+        cache: "no-store",
     });
+
+    if (!res.ok) {
+        const text = await res.text();
+        console.error("API Error:", res.status, text.slice(0, 200));
+        throw new Error(`Failed to fetch trials: ${res.status}`);
+    }
 
     const data = await res.json();
     return data;
