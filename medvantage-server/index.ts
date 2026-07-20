@@ -154,7 +154,11 @@ async function run() {
     })
 
 
-
+    app.get("/api/explore/my-items", verifyToken, async (req: Request, res: Response) => {
+      const userId = req.user?.id;
+      const result = await exploreTrialCollections.find({ userId }).toArray();
+      res.send(result);
+    });
 
 
 
@@ -215,7 +219,6 @@ Tone: Professional yet warm and approachable. Use clear language. Be concise but
           }
         }
 
-        // পুরো conversation DB-তে আপডেট করো (শেষ ১৫টা message রাখো, বাকি ছাঁটো)
         const lastUserMsg = messages[messages.length - 1];
         await chatCollections.updateOne(
           { userId },
