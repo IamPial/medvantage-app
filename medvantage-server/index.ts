@@ -145,6 +145,14 @@ async function run() {
       res.json(result)
     })
 
+
+    app.get("/api/explore/my-items", verifyToken, async (req: Request, res: Response) => {
+      const userId = req.user?.id;
+      const result = await exploreTrialCollections.find({ userId }).toArray();
+      res.send(result);
+    });
+
+
     app.get('/api/explore/:id', async (req: Request<{ id: string }>, res: Response) => {
       const { id } = req.params
       const result = await exploreTrialCollections.findOne({
@@ -152,13 +160,6 @@ async function run() {
       })
       res.send(result)
     })
-
-
-    app.get("/api/explore/my-items", verifyToken, async (req: Request, res: Response) => {
-      const userId = req.user?.id;
-      const result = await exploreTrialCollections.find({ userId }).toArray();
-      res.send(result);
-    });
 
 
 
