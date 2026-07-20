@@ -11,20 +11,21 @@ import {
   LuSparkles,
 } from "react-icons/lu";
 import { TbHelpCircle } from "react-icons/tb";
+import { clearChatHistory, getChatHistory, sendChatMessage } from "@/lib/actions/aiChat";
 
 // Message Interface Types
 interface Message {
   id: string;
-  role: "user" | "ai";
+  role: "user" | "assistant";
   text: string;
   timestamp: Date;
 }
 
 const SUGGESTED_QUESTIONS = [
-  "Explain this clinical trial.",
-  "What is Phase 3?",
-  "Am I eligible for this trial?",
-  "Explain EGFR mutation."
+  "Explain Phase 3 Clinical Trials",
+  "What is Breast Cancer?",
+  "Find Clinical Trials",
+  "How do I use MedVantage?"
 ];
 
 export default function AIAssistantPage() {
@@ -39,25 +40,6 @@ export default function AIAssistantPage() {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
-  /**
-   * BACKEND PREPARATION: Gemini API API Handler
-   * This function isolates backend connection from the UI logic.
-   */
-  const fetchAIResponse = async (userPrompt: string): Promise<string> => {
-    // API Intregation Point:
-    // const response = await fetch('/api/gemini-chat', { method: 'POST', body: JSON.stringify({ prompt: userPrompt }) });
-    // const data = await response.json();
-
-    // Simulating Network Latency for Gemini Response
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(
-          `This is a simulated workspace environment response from MedVantage AI analyzing: "${userPrompt}". Connect this block within fetchAIResponse() to standard Gemini SDK endpoints inside production nodes.`
-        );
-      }, 1500);
-    });
-  };
-
   const handleSendMessage = async (textToSend: string) => {
     if (!textToSend.trim()) return;
 
@@ -68,23 +50,61 @@ export default function AIAssistantPage() {
       timestamp: new Date()
     };
 
-    setMessages((prev) => [...prev, userMessage]);
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setInputValue("");
     setIsTyping(true);
 
+    const assistantId = crypto.randomUUID();
+    let assistantText = "";
+
     try {
-      const aiText = await fetchAIResponse(textToSend);
+      const apiPayload = updatedMessages.map(msg => ({ role: msg.role, content: msg.text }));
 
-      const aiMessage: Message = {
-        id: crypto.randomUUID(),
-        role: "ai",
-        text: aiText,
-        timestamp: new Date()
-      };
+      const res = await fetch("/api/ai-chat", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ messages: apiPayload }),
+      });
 
-      setMessages((prev) => [...prev, aiMessage]);
+      if (!res.body) throw new Error("No stream body");
+
+
+      setMessages((prev) => [...prev, { id: assistantId, role: "assistant", text: "", timestamp: new Date() }]);
+      setIsTyping(false);
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n\n");
+        buffer = lines.pop() || "";
+
+        for (const line of lines) {
+          if (!line.startsWith("data: ")) continue;
+          const data = line.replace("data: ", "");
+          if (data === "[DONE]") continue;
+
+          const parsed = JSON.parse(data);
+          if (parsed.token) {
+            assistantText += parsed.token;
+            setMessages((prev) =>
+              prev.map((m) => (m.id === assistantId ? { ...m, text: assistantText } : m))
+            );
+          }
+        }
+      }
     } catch (error) {
-      console.error("Failed to generate stream/response:", error);
+      console.error("Failed to generate response:", error);
+      setMessages((prev) => [
+        ...prev,
+        { id: assistantId, role: "assistant", text: "I'm sorry, I'm having trouble communicating with the server.", timestamp: new Date() }
+      ]);
     } finally {
       setIsTyping(false);
     }
@@ -96,10 +116,28 @@ export default function AIAssistantPage() {
     }
   };
 
-  const clearChat = () => {
+  const clearChat = async () => {
     setMessages([]);
     setIsTyping(false);
+    await clearChatHistory();
   };
+
+
+  useEffect(() => {
+    (async () => {
+      const { messages: history } = await getChatHistory();
+      if (history?.length) {
+        setMessages(
+          history.map((m: any) => ({
+            id: crypto.randomUUID(),
+            role: m.role,
+            text: m.content,
+            timestamp: new Date(m.createdAt),
+          }))
+        );
+      }
+    })();
+  }, []);
 
   return (
     <div className="w-full max-w-5xl mx-auto space-y-6 p-1 sm:p-2 selection:bg-emerald-500/10 text-zinc-900 h-[calc(100vh-120px)] flex flex-col justify-between">
@@ -153,7 +191,7 @@ export default function AIAssistantPage() {
                   className={`flex w-full items-start gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   {/* AI Avatar */}
-                  {msg.role === "ai" && (
+                  {msg.role === "assistant" && (
                     <div className="h-8 w-8 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center text-xs shrink-0 mt-0.5 shadow-xs">
                       <LuBrainCircuit className="h-4 w-4" />
                     </div>
@@ -213,7 +251,7 @@ export default function AIAssistantPage() {
                 <button
                   key={index}
                   type="button"
-                  onClick={() => setInputValue(question)}
+                  onClick={() => handleSendMessage(question)}
                   className="flex items-center gap-2 text-left px-3.5 py-2.5 rounded-xl bg-white border border-zinc-200 hover:border-emerald-500 text-zinc-700 hover:text-emerald-700 text-xs font-medium transition-all shadow-xs cursor-pointer outline-none"
                 >
                   <TbHelpCircle className="text-emerald-500 text-sm shrink-0" />
@@ -224,25 +262,22 @@ export default function AIAssistantPage() {
           )}
 
           {/* Interactive Input Form Control Grid */}
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2.5 w-full">
             <Input
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Ask anything about clinical trials..."
               disabled={isTyping}
-              classNames={{
-                inputWrapper: "bg-white border border-zinc-200 text-zinc-900 rounded-xl shadow-xs hover:border-zinc-300 focus-within:!border-emerald-500 transition-colors h-11",
-                input: "text-sm placeholder:text-zinc-400"
-              }}
+              className="bg-white border border-zinc-200 text-zinc-900 rounded-xl shadow-xs px-3.5 hover:border-zinc-300 focus:border-emerald-500 focus:outline-none transition-colors h-11 text-sm placeholder:text-zinc-400 w-full flex-1"
             />
 
             <Button
               isIconOnly
               onClick={() => handleSendMessage(inputValue)}
-              disabled={!inputValue.trim() || isTyping}
+              isDisabled={!inputValue.trim() || isTyping}
               className="bg-emerald-600 hover:bg-emerald-700 text-white min-w-11 h-11 rounded-xl shadow-xs transition-colors cursor-pointer flex items-center justify-center disabled:opacity-50"
-              title="Send Prompt"
+              aria-label="Send Prompt"
             >
               <LuSend className="h-4 w-4" />
             </Button>
@@ -252,7 +287,7 @@ export default function AIAssistantPage() {
                 isIconOnly
                 onClick={clearChat}
                 className="bg-white border border-zinc-200 text-zinc-500 hover:text-rose-600 hover:border-rose-200 min-w-11 h-11 rounded-xl shadow-xs transition-all cursor-pointer flex items-center justify-center"
-                title="Clear Workspace History"
+                aria-label="Clear Workspace History"
               >
                 <LuTrash2 className="h-4 w-4" />
               </Button>
