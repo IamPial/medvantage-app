@@ -9,9 +9,9 @@ import { getMyExploreTrials, type TrialFormData } from "@/lib/api/exploreTrials"
 
 
 export const metadata = {
-  title: "Manage Trials - Dashboard",
+  title: "Manage Trials | MedVantage Dashboard",
   description:
-    "Efficiently manage, monitor, and update your active clinical trials and medical research packages on NexusDash—the ultimate premium administration platform.",
+    "View, monitor, and manage your submitted clinical trials on MedVantage.",
 };
 
 const ManageTrialsPage = async () => {
