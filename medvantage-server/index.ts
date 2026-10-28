@@ -87,7 +87,7 @@ const verifyToken = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { payload } = await jwtVerify(token, JWKS);
     req.user = payload;
-    console.log(req.user);
+    // console.log(req.user);
     next();
   } catch (error) {
     console.error("Token validation failed:", error);
