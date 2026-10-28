@@ -240,7 +240,7 @@ Tone: Professional yet warm and approachable. Use clear language. Be concise but
                   { role: 'user', content: lastUserMsg.content, createdAt: new Date() },
                   { role: 'assistant', content: fullReply, createdAt: new Date() }
                 ],
-                $slice: -30 // শেষ ৩০টা (১৫ pair) রাখো
+                $slice: -30 
               }
             },
             $set: { updatedAt: new Date() }
