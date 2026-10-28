@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Form,
@@ -16,6 +17,7 @@ import { LuFilePlus2, LuStethoscope, LuMapPin, LuImage, LuSparkles } from "react
 import { toast } from "sonner";
 import { imgUpload } from "@/lib/imgUploader";
 import { createTrial } from "@/lib/actions/exploreTrials";
+import type {Key} from 'react-aria-components'
 
 
 
@@ -33,6 +35,8 @@ interface TrialFormData {
 
 export default function AddTrialPage() {
   const router = useRouter();
+
+  const [phase, setPhase] = useState<Key | null>(null)
 
 
   // Form Submission Handler
@@ -54,9 +58,12 @@ export default function AddTrialPage() {
 
     const createTrialData = {
       ...trialData,
+      phase:phase as string,
       image: imageUrl,
     };
 
+    
+    console.log(createTrialData)
     const result = await createTrial(createTrialData);
     if (result) {
       toast.success("New Clinical Trial Added Successfully", {
@@ -121,6 +128,8 @@ export default function AddTrialPage() {
                 <Select
                   isRequired
                   name="phase"
+                  selectedKey={phase as string | null}
+                  onSelectionChange={(key)=>setPhase(key)}
                   aria-label="Select Trial Phase"
                   className="w-full text-zinc-900 text-sm transition-all"
                 >
@@ -130,16 +139,16 @@ export default function AddTrialPage() {
                   </Select.Trigger>
                   <Select.Popover className="bg-white border border-zinc-100 shadow-xl rounded-xl p-1 text-zinc-900">
                     <ListBox>
-                      <ListBox.Item key="Phase I" textValue="Phase I" className="rounded-lg p-2 text-sm hover:bg-zinc-50 cursor-pointer outline-none">
+                      <ListBox.Item id="Phase I" textValue="Phase I" className="rounded-lg p-2 text-sm hover:bg-zinc-50 cursor-pointer outline-none">
                         <Label>Phase I</Label>
                       </ListBox.Item>
-                      <ListBox.Item key="Phase II" textValue="Phase II" className="rounded-lg p-2 text-sm hover:bg-zinc-50 cursor-pointer outline-none">
+                      <ListBox.Item id="Phase II" textValue="Phase II" className="rounded-lg p-2 text-sm hover:bg-zinc-50 cursor-pointer outline-none">
                         <Label>Phase II</Label>
                       </ListBox.Item>
-                      <ListBox.Item key="Phase III" textValue="Phase III" className="rounded-lg p-2 text-sm hover:bg-zinc-50 cursor-pointer outline-none">
+                      <ListBox.Item id="Phase III" textValue="Phase III" className="rounded-lg p-2 text-sm hover:bg-zinc-50 cursor-pointer outline-none">
                         <Label>Phase III</Label>
                       </ListBox.Item>
-                      <ListBox.Item key="Phase IV" textValue="Phase IV" className="rounded-lg p-2 text-sm hover:bg-zinc-50 cursor-pointer outline-none">
+                      <ListBox.Item id="Phase IV" textValue="Phase IV" className="rounded-lg p-2 text-sm hover:bg-zinc-50 cursor-pointer outline-none">
                         <Label>Phase IV</Label>
                       </ListBox.Item>
                     </ListBox>
@@ -234,7 +243,7 @@ export default function AddTrialPage() {
                 <TextArea
                   name="description"
                   placeholder="Combining AI-assisted imaging with early breast cancer diagnosis..."
-                  className="w-full min-h-[100px] rounded-xl border border-zinc-200 bg-white text-zinc-900 shadow-sm p-2.5 text-sm focus:border-emerald-500 focus:outline-none transition-all placeholder:text-zinc-400 resize-none"
+                  className="w-full min-h-25 rounded-xl border border-zinc-200 bg-white text-zinc-900 shadow-sm p-2.5 text-sm focus:border-emerald-500 focus:outline-none transition-all placeholder:text-zinc-400 resize-none"
                 />
               </div>
             </div>
