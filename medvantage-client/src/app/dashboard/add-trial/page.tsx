@@ -37,6 +37,7 @@ export default function AddTrialPage() {
   const router = useRouter();
 
   const [phase, setPhase] = useState<Key | null>(null)
+  const [status, setStatus] = useState<Key | null>(null)
 
 
   // Form Submission Handler
@@ -59,11 +60,12 @@ export default function AddTrialPage() {
     const createTrialData = {
       ...trialData,
       phase:phase as string,
+      status: status as string,
       image: imageUrl,
     };
 
     
-    console.log(createTrialData)
+    // console.log(createTrialData)
     const result = await createTrial(createTrialData);
     if (result) {
       toast.success("New Clinical Trial Added Successfully", {
@@ -162,6 +164,8 @@ export default function AddTrialPage() {
                 <Select
                   isRequired
                   name="status"
+                  selectedKey={status as string | null}
+                  onSelectionChange={(key)=>setStatus(key)}
                   aria-label="Select Recruitment Status"
                   className="w-full text-zinc-900 text-sm transition-all"
                 >
@@ -171,16 +175,16 @@ export default function AddTrialPage() {
                   </Select.Trigger>
                   <Select.Popover className="bg-white border border-zinc-100 shadow-xl rounded-xl p-1 text-zinc-900">
                     <ListBox>
-                      <ListBox.Item key="Active" textValue="Active" className="rounded-lg p-2 text-sm hover:bg-zinc-50 cursor-pointer outline-none">
+                      <ListBox.Item id="Active" textValue="Active" className="rounded-lg p-2 text-sm hover:bg-zinc-50 cursor-pointer outline-none">
                         <Label>Active</Label>
                       </ListBox.Item>
-                      <ListBox.Item key="Recruiting" textValue="Recruiting" className="rounded-lg p-2 text-sm hover:bg-zinc-50 cursor-pointer outline-none">
+                      <ListBox.Item id="Recruiting" textValue="Recruiting" className="rounded-lg p-2 text-sm hover:bg-zinc-50 cursor-pointer outline-none">
                         <Label>Recruiting</Label>
                       </ListBox.Item>
-                      <ListBox.Item key="Completed" textValue="Completed" className="rounded-lg p-2 text-sm hover:bg-zinc-50 cursor-pointer outline-none">
+                      <ListBox.Item id="Completed" textValue="Completed" className="rounded-lg p-2 text-sm hover:bg-zinc-50 cursor-pointer outline-none">
                         <Label>Completed</Label>
                       </ListBox.Item>
-                      <ListBox.Item key="Suspended" textValue="Suspended" className="rounded-lg p-2 text-sm hover:bg-zinc-50 cursor-pointer outline-none">
+                      <ListBox.Item id="Suspended" textValue="Suspended" className="rounded-lg p-2 text-sm hover:bg-zinc-50 cursor-pointer outline-none">
                         <Label>Suspended</Label>
                       </ListBox.Item>
                     </ListBox>
