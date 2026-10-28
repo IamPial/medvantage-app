@@ -1,7 +1,7 @@
 "use client";
 
 import { Table, Button } from "@heroui/react";
-import { FiEye, FiTrash2 } from "react-icons/fi";
+import { FiEye} from "react-icons/fi";
 import Link from "next/link";
 import Image from "next/image";
 import { TrialFormData } from "@/lib/api/exploreTrials";
@@ -59,7 +59,7 @@ const TrialsTable = ({ trials }: TrialsTableProps) => {
                                                 </div>
                                             )}
                                             <div>
-                                                <h4 className="font-bold text-zinc-900 text-sm max-w-[240px] truncate">{trial.title}</h4>
+                                                <h4 className="font-bold text-zinc-900 text-sm max-w-60 truncate">{trial.title}</h4>
                                                 <p className="text-xs font-mono text-zinc-400 max-w-70 truncate">{trial._id}</p>
                                             </div>
                                         </div>
@@ -69,7 +69,7 @@ const TrialsTable = ({ trials }: TrialsTableProps) => {
                                         {trial.disease}
                                     </Table.Cell>
 
-                                    <Table.Cell className="text-xs text-zinc-400 max-w-[200px] truncate">
+                                    <Table.Cell className="text-xs text-zinc-400 max-w-50 truncate">
                                         {trial.hospital}
                                     </Table.Cell>
 
