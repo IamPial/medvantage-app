@@ -79,7 +79,7 @@ const SignUpPage = () => {
     <div className="min-h-screen w-full bg-slate-50/50 flex flex-col lg:flex-row text-slate-900 selection:bg-[#00a86b]/10">
 
 
-      <section className="relative w-full lg:w-1/2 bg-gradient-to-br from-[#006b43] via-[#00a86b] to-slate-900 p-8 sm:p-12 lg:p-16 flex flex-col justify-between overflow-hidden text-white">
+      <section className="relative w-full lg:w-1/2 bg-linear-to-br from-[#006b43] via-[#00a86b] to-slate-900 p-8 sm:p-12 lg:p-16 flex flex-col justify-between overflow-hidden text-white">
         <div className="absolute inset-0 opacity-10 pointer-events-none">
           <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-emerald-400 blur-3xl" />
         </div>
@@ -110,7 +110,7 @@ const SignUpPage = () => {
               "Trusted by Healthcare Professionals",
             ].map((feature, i) => (
               <li key={i} className="flex items-center gap-3 text-slate-100 text-sm sm:text-base">
-                <span className="flex-shrink-0 h-5 w-5 rounded-full bg-white/20 text-white flex items-center justify-center text-xs font-bold">
+                <span className="shrink-0 h-5 w-5 rounded-full bg-white/20 text-white flex items-center justify-center text-xs font-bold">
                   ✓
                 </span>
                 <span>{feature}</span>
@@ -130,7 +130,7 @@ const SignUpPage = () => {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="w-full max-w-[480px]"
+          className="w-full max-w-120"
         >
           <Form
             onSubmit={handleSubmit}
