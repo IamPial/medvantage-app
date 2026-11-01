@@ -9,8 +9,8 @@ import {
   Label,
   Separator,
   TextField,
-  Select,
-  ListBox,
+  Radio,
+  RadioGroup
 } from "@heroui/react";
 import { motion } from "motion/react";
 import { FcGoogle } from "react-icons/fc";
@@ -161,6 +161,41 @@ const SignUpPage = () => {
               <FieldError className="text-xs text-red-500 mt-1" />
             </TextField>
 
+
+
+             {/* Implement Role System */}
+             
+            <div className="flex flex-col gap-1.5">
+              <RadioGroup 
+                isRequired 
+                defaultValue="patient" 
+                name="role" 
+                orientation="horizontal"
+                className="flex flex-col gap-2"
+                >
+                  <Label className="text-slate-700 text-xs font-bold uppercase tracking-wider">
+                    Join As
+                  </Label>
+                <div className="flex items-center gap-6 mt-1"> 
+                  <Radio value="patient">
+                    <Radio.Content className="flex items-center gap-2 cursor-pointer text-sm text-slate-700 font-medium">
+                      <Radio.Control className="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center">
+                        <Radio.Indicator className="w-2 h-2 rounded-full bg-[#00a86b]" />
+                      </Radio.Control>
+                        Patient
+                    </Radio.Content>
+                  </Radio>
+                  <Radio value="researcher">
+                    <Radio.Content className="flex items-center gap-2 cursor-pointer text-sm text-slate-700 font-medium">
+                      <Radio.Control className="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center">
+                          <Radio.Indicator className="w-2 h-2 rounded-full bg-[#00a86b]" />
+                      </Radio.Control>
+                        Researcher
+                    </Radio.Content>
+                  </Radio>
+                </div>
+              </RadioGroup>
+            </div>
 
 
             {/* Password Input */}
