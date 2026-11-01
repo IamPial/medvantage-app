@@ -30,10 +30,16 @@ const SignUpPage = () => {
 
     const formData = new FormData(e.currentTarget);
     const user = Object.fromEntries(formData.entries()) as Record<string, string>;
+    // console.log(user)
 
     if (user.password !== user.confirmPassword) {
       toast.error("Passwords do not match!");
       return;
+    }
+
+    if(!user.role){
+      toast.error("Please provide your role!")
+      return
     }
 
     try {
@@ -41,6 +47,12 @@ const SignUpPage = () => {
         email: user.email,
         password: user.password,
         name: user.name,
+        fetchOptions: {
+         body: {
+           role: user.role,
+        },
+      },
+       
       });
 
       if (error) {
@@ -58,6 +70,8 @@ const SignUpPage = () => {
     }
   };
 
+
+  // google sign in
   const handleGoogleSignIn = async () => {
     try {
       await authClient.signIn.social({
@@ -163,38 +177,32 @@ const SignUpPage = () => {
 
 
 
-             {/* Implement Role System */}
-             
+          {/* Implement Role System */}  
             <div className="flex flex-col gap-1.5">
-              <RadioGroup 
-                isRequired 
-                defaultValue="patient" 
-                name="role" 
-                orientation="horizontal"
-                className="flex flex-col gap-2"
-                >
-                  <Label className="text-slate-700 text-xs font-bold uppercase tracking-wider">
-                    Join As
-                  </Label>
-                <div className="flex items-center gap-6 mt-1"> 
-                  <Radio value="patient">
-                    <Radio.Content className="flex items-center gap-2 cursor-pointer text-sm text-slate-700 font-medium">
-                      <Radio.Control className="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center">
-                        <Radio.Indicator className="w-2 h-2 rounded-full bg-[#00a86b]" />
-                      </Radio.Control>
-                        Patient
-                    </Radio.Content>
-                  </Radio>
-                  <Radio value="researcher">
-                    <Radio.Content className="flex items-center gap-2 cursor-pointer text-sm text-slate-700 font-medium">
-                      <Radio.Control className="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center">
-                          <Radio.Indicator className="w-2 h-2 rounded-full bg-[#00a86b]" />
-                      </Radio.Control>
-                        Researcher
-                    </Radio.Content>
-                  </Radio>
-                </div>
-              </RadioGroup>
+              <Label isRequired className="text-slate-700 text-xs font-bold uppercase tracking-wider">
+                Join As
+              </Label>
+              <div className="flex items-center gap-6 mt-1">
+                <label className="flex items-center gap-2 cursor-pointer text-sm text-slate-700 font-medium">
+                  <input
+                    type="radio"
+                    name="role"
+                    value="patient"
+                    defaultChecked
+                    className="w-4 h-4 text-[#00a86b] accent-[#00a86b] focus:ring-[#00a86b]"
+                  />
+                  Patient
+                </label>
+                <label className="flex items-center gap-2 cursor-pointer text-sm text-slate-700 font-medium">
+                  <input
+                    type="radio"
+                    name="role"
+                    value="researcher"
+                    className="w-4 h-4 text-[#00a86b] accent-[#00a86b] focus:ring-[#00a86b]"
+                  />
+                  Researcher
+                </label>
+              </div>
             </div>
 
 
