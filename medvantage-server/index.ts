@@ -3,7 +3,7 @@ import express, { type Express, type NextFunction, type Request, type Response }
 import cors from 'cors';
 import { MongoClient, ObjectId, ServerApiVersion } from 'mongodb';
 import { createRemoteJWKSet, jwtVerify } from 'jose-cjs';
-import OpenAI from 'openai';
+import Groq from "groq-sdk";
 
 const app: Express = express();
 const port = process.env.PORT || 5000;
@@ -173,7 +173,8 @@ async function run() {
 
 
 
-    //Ai Assistant Chatboat
+    
+    // Ai Assistant Chatboat
     app.post('/api/ai/chat', verifyToken, async (req: Request, res: Response) => {
       const { messages } = req.body;
       const userId = req.user?.id as string;
@@ -190,28 +191,29 @@ async function run() {
       try {
         const systemPrompt = `You are MedVantage AI Assistant — a helpful, friendly, and knowledgeable assistant built into the MedVantage clinical trial matching platform.
 
-Your role:
-- Answer questions about clinical trials, phases, eligibility criteria, and how trials work.
-- Explain medical terms and conditions in clear, easy-to-understand language.
-- Help users navigate the MedVantage platform (Explore Trials, Dashboard, Add Trial, AI Assistant pages).
-- Provide general health education and awareness.
+          Your role:
+          - Answer questions about clinical trials, phases, eligibility criteria, and how trials work.
+          - Explain medical terms and conditions in clear, easy-to-understand language.
+          - Help users navigate the MedVantage platform (Explore Trials, Dashboard, Add Trial, AI Assistant pages).
+          - Provide general health education and awareness.
 
-Strict rules you MUST follow:
-- NEVER diagnose any disease or medical condition.
-- NEVER prescribe or recommend any specific medication or treatment.
-- NEVER provide personalized medical advice.
-- ALWAYS recommend consulting a qualified healthcare professional for medical decisions.
-- If a user asks for diagnosis or prescription, politely decline and suggest they speak with their doctor.
+          Strict rules you MUST follow:
+          - NEVER diagnose any disease or medical condition.
+          - NEVER prescribe or recommend any specific medication or treatment.
+          - NEVER provide personalized medical advice.
+          - ALWAYS recommend consulting a qualified healthcare professional for medical decisions.
+          - If a user asks for diagnosis or prescription, politely decline and suggest they speak with their doctor.
 
-Tone: Professional yet warm and approachable. Use clear language. Be concise but thorough. Format responses with markdown when helpful (bold, lists, headings).`;
+          Tone: Professional yet warm and approachable. Use clear language. Be concise but thorough. Format responses with markdown when helpful (bold, lists, headings).`;
 
-        const groq = new OpenAI({
-          apiKey: process.env.GROK_AI_ASSISTANT_API,
-          baseURL: 'https://api.groq.com/openai/v1',
+        
+        const groq = new Groq({
+          apiKey: process.env.GROK_AI_ASSISTANT_API,  //connected groq with this api
         });
 
+        
         const stream = await groq.chat.completions.create({
-          model: 'llama-3.3-70b-versatile',
+          model: 'openai/gpt-oss-20b', // ai model from open ai 
           messages: [
             { role: 'system', content: systemPrompt },
             ...messages.map((msg: { role: string; content: string }) => ({
@@ -240,7 +242,7 @@ Tone: Professional yet warm and approachable. Use clear language. Be concise but
                   { role: 'user', content: lastUserMsg.content, createdAt: new Date() },
                   { role: 'assistant', content: fullReply, createdAt: new Date() }
                 ],
-                $slice: -30 
+                $slice: -30
               }
             },
             $set: { updatedAt: new Date() }
