@@ -7,7 +7,6 @@ import {
     FiX,
     FiHome,
     FiPieChart,
-    FiActivity,
 } from "react-icons/fi";
 import { Button } from "@heroui/react";
 import Link from "next/link";
@@ -16,8 +15,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 import { IoCreateOutline } from "react-icons/io5";
-import { RiEditCircleLine, RiProfileLine } from "react-icons/ri";
-import { MdOutlineRecommend } from "react-icons/md";
+import { RiEditCircleLine} from "react-icons/ri";
 import { LuBot } from "react-icons/lu";
 
 const dashboardItems = [
