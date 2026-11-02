@@ -49,6 +49,8 @@ export const getExploreItemsDetails = async (id: string): Promise<TrialFormData>
 }
 
 
+
+//verify user created a new clinical trial data
 export const getMyExploreTrials = async (): Promise<TrialFormData[]> => {
     const token = await getTokenServer();
     const res = await fetch(`${baseURl}/api/explore/my-items`, {
