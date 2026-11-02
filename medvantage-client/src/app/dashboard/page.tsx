@@ -181,7 +181,7 @@ export default function OverviewContent({ type }: OverviewContentProps) {
                     {activities.map((act) => (
                         <div key={act.id} className="relative group">
                             {/* Timeline Bullet Node Indicator */}
-                            <div className="absolute -left-[27px] top-1 h-3.5 w-3.5 rounded-full border-2 border-white bg-emerald-500 shadow-sm ring-4 ring-emerald-50/70 transition-transform group-hover:scale-110" />
+                            <div className="absolute -left-6.75 top-1 h-3.5 w-3.5 rounded-full border-2 border-white bg-emerald-500 shadow-sm ring-4 ring-emerald-50/70 transition-transform group-hover:scale-110" />
 
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 sm:gap-4">
                                 <div>
