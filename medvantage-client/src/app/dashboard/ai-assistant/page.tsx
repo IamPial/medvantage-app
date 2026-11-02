@@ -156,7 +156,7 @@ export default function AIAssistantPage() {
       </div>
 
       {/* 2. Main Chat Workspace Container */}
-      <Card className="flex-1 bg-white border border-zinc-100 shadow-sm shadow-zinc-200/50 rounded-2xl flex flex-col overflow-hidden relative min-h-[350px]">
+      <Card className="flex-1 bg-white border border-zinc-100 shadow-sm shadow-zinc-200/50 rounded-2xl flex flex-col overflow-hidden relative min-h-87.5">
 
         {/* Chat Scrolling Area */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
