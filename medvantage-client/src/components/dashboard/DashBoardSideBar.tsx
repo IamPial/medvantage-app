@@ -97,7 +97,7 @@ const DashBoardSideBar = () => {
                     </div>
 
                     <nav className="flex flex-col gap-2 max-h-[60vh] overflow-y-auto custom-scrollbar">
-                        {dashboardItems.map((item, index) => {
+                        {navItems.map((item, index) => {
                             const isActive = pathname === item.href;
                             return (
                                 <Link
