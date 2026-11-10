@@ -29,10 +29,10 @@ const dashboardItems ={
     ],
 
     researcher:[
-    { name: "Overview", icon: <FiPieChart />, href: "/dashboard" },
-    { name: "Add Trial", icon: <IoCreateOutline />, href: "/dashboard/add-trial" },
-    { name: "Manage Trial", icon: <RiEditCircleLine />, href: "/dashboard/manage-trials" },
-    { name: "Medvantage AI", icon: <LuBot />, href: "/dashboard/ai-assistant" },
+    { name: "Overview", icon: <FiPieChart />, href: "/dashboard/researcher" },
+    { name: "Add Trial", icon: <IoCreateOutline />, href: "/dashboard/researcher/add-trial" },
+    { name: "Manage Trial", icon: <RiEditCircleLine />, href: "/dashboard/researcher/manage-trials" },
+    { name: "Medvantage AI", icon: <LuBot />, href: "/dashboard/researcher/ai-assistant" },
 
     ]
 
