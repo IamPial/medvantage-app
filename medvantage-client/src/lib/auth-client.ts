@@ -1,8 +1,11 @@
-import { jwtClient } from "better-auth/client/plugins"
+import { inferAdditionalFields, jwtClient } from "better-auth/client/plugins"
 import { createAuthClient } from "better-auth/react"
+import { auth } from "./auth"
+
 export const authClient = createAuthClient({
     baseURL: process.env.NEXT_PUBLIC_AUTH_URL,
     plugins: [
-        jwtClient()
+        jwtClient(),
+        inferAdditionalFields<typeof auth>(),
     ]
 })
