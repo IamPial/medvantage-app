@@ -11,7 +11,6 @@ import {
     Tooltip,
     PieChart,
     Pie,
-    Cell,
     Legend
 } from "recharts";
 import {
