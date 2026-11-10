@@ -21,7 +21,7 @@ import { LuBot } from "react-icons/lu";
 const dashboardItems ={ 
 
     patient:[
-    { name: "Overview", icon: <FiPieChart />, href: "/dashboard" },
+    { name: "Overview", icon: <FiPieChart />, href: "/dashboard/patient" },
     { name: "Appointment", icon: <IoCreateOutline />, href: "/dashboard/appointment" },
     { name: "AI Clinical Trial Matching", icon: <RiEditCircleLine />, href: "/dashboard/trial-matching" },
     { name: "Health Report", icon: <LuBot />, href: "/dashboard/report" },
@@ -49,12 +49,9 @@ const DashBoardSideBar = () => {
 
    
     const user = session?.user;
-    const role = user?.role || 'patient';
+    const role = user?.role;
     const navItems = dashboardItems[role as keyof typeof dashboardItems] || dashboardItems.patient
-    // console.log(navItems)
   
-
-
 
 
     const handleSignOut = async () => {
