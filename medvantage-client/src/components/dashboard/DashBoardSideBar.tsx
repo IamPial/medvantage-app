@@ -18,12 +18,26 @@ import { IoCreateOutline } from "react-icons/io5";
 import { RiEditCircleLine} from "react-icons/ri";
 import { LuBot } from "react-icons/lu";
 
-const dashboardItems = [
+const dashboardItems ={ 
+
+    patient:[
+    { name: "Overview", icon: <FiPieChart />, href: "/dashboard" },
+    { name: "Appointment", icon: <IoCreateOutline />, href: "/dashboard/appointment" },
+    { name: "AI Clinical Trial Matching", icon: <RiEditCircleLine />, href: "/dashboard/trial-matching" },
+    { name: "Health Report", icon: <LuBot />, href: "/dashboard/report" },
+    { name: "Medvantage AI", icon: <LuBot />, href: "/dashboard/ai-assistant" },
+    ],
+
+    researcher:[
     { name: "Overview", icon: <FiPieChart />, href: "/dashboard" },
     { name: "Add Trial", icon: <IoCreateOutline />, href: "/dashboard/add-trial" },
     { name: "Manage Trial", icon: <RiEditCircleLine />, href: "/dashboard/manage-trials" },
     { name: "Medvantage AI", icon: <LuBot />, href: "/dashboard/ai-assistant" },
-];
+
+    ]
+
+  
+}
 
 
 
@@ -31,6 +45,14 @@ const DashBoardSideBar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const router = useRouter();
     const pathname = usePathname();
+    const {data:session } = authClient.useSession()
+
+   
+    const user = session?.user;
+    const role = user?.role || 'patient';
+    const navItems = dashboardItems[role as keyof typeof dashboardItems] || dashboardItems.patient
+    // console.log(navItems)
+  
 
 
 
